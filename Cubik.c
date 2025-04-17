@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 #define FRONT 0
 #define BACK 1
@@ -42,7 +43,7 @@ void mostrar_cubo() {
     mostrar_cara(BACK);
 }
 
-void rotar_cara(int cara) {
+void rotar_cara_clockwise(int cara) {
     char temp[3][3];
     for(int i = 0; i < 3; i++) {
         for(int j = 0; j < 3; j++) {
@@ -52,9 +53,19 @@ void rotar_cara(int cara) {
     memcpy(cube[cara], temp, sizeof(temp));
 }
 
-// Rotación de la cara Frontal (F)
+void rotar_cara_counterclockwise(int cara) {
+    char temp[3][3];
+    for(int i = 0; i < 3; i++) {
+        for(int j = 0; j < 3; j++) {
+            temp[i][j] = cube[cara][j][2-i];
+        }
+    }
+    memcpy(cube[cara], temp, sizeof(temp));
+}
+
+// Rotaciones para la cara Frontal
 void rotar_frente_clockwise() {
-    rotar_cara(FRONT);
+    rotar_cara_clockwise(FRONT);
     
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[UP][2][i];
@@ -65,9 +76,21 @@ void rotar_frente_clockwise() {
     for(int i = 0; i < 3; i++) cube[RIGHT][i][0] = temp[2-i];
 }
 
-// Rotación de la cara Derecha (R)
+void rotar_frente_counterclockwise() {
+    rotar_cara_counterclockwise(FRONT);
+    
+    char temp[3];
+    for(int i = 0; i < 3; i++) temp[i] = cube[UP][2][i];
+    
+    for(int i = 0; i < 3; i++) cube[UP][2][i] = cube[RIGHT][i][0];
+    for(int i = 0; i < 3; i++) cube[RIGHT][i][0] = cube[DOWN][0][2-i];
+    for(int i = 0; i < 3; i++) cube[DOWN][0][i] = cube[LEFT][2-i][2];
+    for(int i = 0; i < 3; i++) cube[LEFT][i][2] = temp[2-i];
+}
+
+// Rotaciones para la cara Derecha
 void rotar_derecha_clockwise() {
-    rotar_cara(RIGHT);
+    rotar_cara_clockwise(RIGHT);
     
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[UP][i][2];
@@ -78,9 +101,21 @@ void rotar_derecha_clockwise() {
     for(int i = 0; i < 3; i++) cube[BACK][2-i][0] = temp[i];
 }
 
-// Rotación de la cara Izquierda (L)
+void rotar_derecha_counterclockwise() {
+    rotar_cara_counterclockwise(RIGHT);
+    
+    char temp[3];
+    for(int i = 0; i < 3; i++) temp[i] = cube[UP][i][2];
+    
+    for(int i = 0; i < 3; i++) cube[UP][i][2] = cube[BACK][2-i][0];
+    for(int i = 0; i < 3; i++) cube[BACK][2-i][0] = cube[DOWN][i][2];
+    for(int i = 0; i < 3; i++) cube[DOWN][i][2] = cube[FRONT][i][2];
+    for(int i = 0; i < 3; i++) cube[FRONT][i][2] = temp[i];
+}
+
+// Rotaciones para la cara Izquierda
 void rotar_izquierda_clockwise() {
-    rotar_cara(LEFT);
+    rotar_cara_clockwise(LEFT);
     
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[UP][i][0];
@@ -91,9 +126,21 @@ void rotar_izquierda_clockwise() {
     for(int i = 0; i < 3; i++) cube[FRONT][i][0] = temp[i];
 }
 
-// Rotación de la cara Superior (U)
+void rotar_izquierda_counterclockwise() {
+    rotar_cara_counterclockwise(LEFT);
+    
+    char temp[3];
+    for(int i = 0; i < 3; i++) temp[i] = cube[UP][i][0];
+    
+    for(int i = 0; i < 3; i++) cube[UP][i][0] = cube[FRONT][i][0];
+    for(int i = 0; i < 3; i++) cube[FRONT][i][0] = cube[DOWN][i][0];
+    for(int i = 0; i < 3; i++) cube[DOWN][i][0] = cube[BACK][2-i][2];
+    for(int i = 0; i < 3; i++) cube[BACK][2-i][2] = temp[i];
+}
+
+// Rotaciones para la cara Superior
 void rotar_superior_clockwise() {
-    rotar_cara(UP);
+    rotar_cara_clockwise(UP);
     
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[FRONT][0][i];
@@ -104,9 +151,21 @@ void rotar_superior_clockwise() {
     for(int i = 0; i < 3; i++) cube[LEFT][0][i] = temp[i];
 }
 
-// Rotación de la cara Inferior (D)
+void rotar_superior_counterclockwise() {
+    rotar_cara_counterclockwise(UP);
+    
+    char temp[3];
+    for(int i = 0; i < 3; i++) temp[i] = cube[FRONT][0][i];
+    
+    for(int i = 0; i < 3; i++) cube[FRONT][0][i] = cube[LEFT][0][i];
+    for(int i = 0; i < 3; i++) cube[LEFT][0][i] = cube[BACK][0][i];
+    for(int i = 0; i < 3; i++) cube[BACK][0][i] = cube[RIGHT][0][i];
+    for(int i = 0; i < 3; i++) cube[RIGHT][0][i] = temp[i];
+}
+
+// Rotaciones para la cara Inferior
 void rotar_inferior_clockwise() {
-    rotar_cara(DOWN);
+    rotar_cara_clockwise(DOWN);
     
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[FRONT][2][i];
@@ -117,9 +176,21 @@ void rotar_inferior_clockwise() {
     for(int i = 0; i < 3; i++) cube[RIGHT][2][i] = temp[i];
 }
 
-// Rotación de la cara Trasera (B)
+void rotar_inferior_counterclockwise() {
+    rotar_cara_counterclockwise(DOWN);
+    
+    char temp[3];
+    for(int i = 0; i < 3; i++) temp[i] = cube[FRONT][2][i];
+    
+    for(int i = 0; i < 3; i++) cube[FRONT][2][i] = cube[RIGHT][2][i];
+    for(int i = 0; i < 3; i++) cube[RIGHT][2][i] = cube[BACK][2][i];
+    for(int i = 0; i < 3; i++) cube[BACK][2][i] = cube[LEFT][2][i];
+    for(int i = 0; i < 3; i++) cube[LEFT][2][i] = temp[i];
+}
+
+// Rotaciones para la cara Trasera
 void rotar_atras_clockwise() {
-    rotar_cara(BACK);
+    rotar_cara_clockwise(BACK);
     
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[UP][0][i];
@@ -130,15 +201,46 @@ void rotar_atras_clockwise() {
     for(int i = 0; i < 3; i++) cube[LEFT][2-i][0] = temp[i];
 }
 
-void manejar_movimiento(char movimiento) {
-    switch(movimiento) {
-        case 'F': rotar_frente_clockwise(); break;
-        case 'R': rotar_derecha_clockwise(); break;
-        case 'L': rotar_izquierda_clockwise(); break;
-        case 'U': rotar_superior_clockwise(); break;
-        case 'D': rotar_inferior_clockwise(); break;
-        case 'B': rotar_atras_clockwise(); break;
-        default: printf("Movimiento no válido\n");
+void rotar_atras_counterclockwise() {
+    rotar_cara_counterclockwise(BACK);
+    
+    char temp[3];
+    for(int i = 0; i < 3; i++) temp[i] = cube[UP][0][i];
+    
+    for(int i = 0; i < 3; i++) cube[UP][0][i] = cube[LEFT][i][0];
+    for(int i = 0; i < 3; i++) cube[LEFT][2-i][0] = cube[DOWN][2][i];
+    for(int i = 0; i < 3; i++) cube[DOWN][2][i] = cube[RIGHT][2-i][2];
+    for(int i = 0; i < 3; i++) cube[RIGHT][i][2] = temp[2-i];
+}
+
+void manejar_movimiento(char movimiento, int inverso) {
+    switch(toupper(movimiento)) {
+        case 'F': 
+            if(inverso) rotar_frente_counterclockwise();
+            else rotar_frente_clockwise();
+            break;
+        case 'R':
+            if(inverso) rotar_derecha_counterclockwise();
+            else rotar_derecha_clockwise();
+            break;
+        case 'L':
+            if(inverso) rotar_izquierda_counterclockwise();
+            else rotar_izquierda_clockwise();
+            break;
+        case 'U':
+            if(inverso) rotar_superior_counterclockwise();
+            else rotar_superior_clockwise();
+            break;
+        case 'D':
+            if(inverso) rotar_inferior_counterclockwise();
+            else rotar_inferior_clockwise();
+            break;
+        case 'B':
+            if(inverso) rotar_atras_counterclockwise();
+            else rotar_atras_clockwise();
+            break;
+        default: 
+            printf("Movimiento no válido: %c\n", movimiento);
     }
 }
 
@@ -148,13 +250,34 @@ int main() {
     
     while(1) {
         mostrar_cubo();
-        printf("Introduce un movimiento (F, R, L, U, D, B) o 'Q' para salir: ");
+        printf("Introduce movimiento (F, R, L, U, D, B) con ' para inverso\n");
+        printf("Ejemplo: F, R', U2. Q para salir: ");
         scanf("%s", entrada);
         
-        if(entrada[0] == 'Q') break;
+        if(toupper(entrada[0]) == 'Q') break;
         
-        for(int i = 0; i < strlen(entrada); i++) {
-            manejar_movimiento(entrada[i]);
+        for(int i = 0; i < strlen(entrada);) {
+            char mov = entrada[i];
+            int inverso = 0;
+            int doble = 0;
+            
+            // Verificar modificadores
+            if(i+1 < strlen(entrada)) {
+                if(entrada[i+1] == '\'') {
+                    inverso = 1;
+                    i++;
+                }
+                else if(entrada[i+1] == '2') {
+                    doble = 1;
+                    i++;
+                }
+            }
+            
+            // Aplicar movimiento
+            manejar_movimiento(mov, inverso);
+            if(doble) manejar_movimiento(mov, inverso);
+            
+            i++;
         }
     }
     
