@@ -282,21 +282,18 @@ int main() {
     inicializar_cubo();
     char entrada[10];
     srand(time(NULL));
-    
+    mezclar_cubo();
     while(1) {
         mostrar_cubo();
         
         
-        printf("Comandos: [F,R,L,U,D,B][',2] | S=Mezclar | Q=Salir\n");
+        printf("Comandos: [F,R,L,U,D,B][',2]| Q=Salir\n");
         printf("Ingrese movimiento: ");
         scanf("%s", entrada);
         
         if(toupper(entrada[0]) == 'Q') break;
         
-        if(toupper(entrada[0]) == 'S') {
-            mezclar_cubo();
-            continue;
-        }
+        
         
         
         for(int i = 0; i < strlen(entrada);) {
