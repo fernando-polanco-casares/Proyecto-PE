@@ -15,6 +15,7 @@
 char cube[6][3][3];
 const char* cara_nombres[] = {"Frente", "Atrás", "Izquierda", "Derecha", "Superior", "Inferior"};
 const char colores[] = {'R', 'O', 'G', 'B', 'W', 'Y'};
+int contador_movimientos = 0;
 
 void inicializar_cubo() {
     for(int cara = 0; cara < 6; cara++) {
@@ -223,31 +224,38 @@ void manejar_movimiento(char movimiento, int inverso) {
         case 'F': 
             if(inverso) rotar_frente_counterclockwise();
             else rotar_frente_clockwise();
+            contador_movimientos++;
             break;
         case 'R':
             if(inverso) rotar_derecha_counterclockwise();
             else rotar_derecha_clockwise();
+            contador_movimientos++;
             break;
         case 'L':
             if(inverso) rotar_izquierda_counterclockwise();
             else rotar_izquierda_clockwise();
+            contador_movimientos++;
             break;
         case 'U':
             if(inverso) rotar_superior_counterclockwise();
             else rotar_superior_clockwise();
+            contador_movimientos++;
             break;
         case 'D':
             if(inverso) rotar_inferior_counterclockwise();
             else rotar_inferior_clockwise();
+            contador_movimientos++;
             break;
         case 'B':
             if(inverso) rotar_atras_counterclockwise();
             else rotar_atras_clockwise();
+            contador_movimientos++;
             break;
         default: 
             printf("Movimiento no válido: %c\n", movimiento);
     }
 }
+
 
 
 void mezclar_cubo() {
@@ -277,6 +285,8 @@ int cubo_resuelto() {
     }
     return 1; // Verdadero - cubo resuelto
 }
+
+
 
 int main() {
     inicializar_cubo();
@@ -321,10 +331,11 @@ int main() {
         // Verificar automáticamente después de cada movimiento
         if(cubo_resuelto()) {
             mostrar_cubo();
-            printf("\n¡Felicidades! Has resuelto el cubo!\n");
+            printf("\n¡Felicidades! Has resuelto el cubo en %d movimientos!\n", contador_movimientos);
             break;
         }
     }
     
     return 0;
 }
+
