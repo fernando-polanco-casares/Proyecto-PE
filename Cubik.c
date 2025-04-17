@@ -52,7 +52,7 @@ void rotar_cara(int cara) {
     memcpy(cube[cara], temp, sizeof(temp));
 }
 
-// Rotación de la cara Frontal (F)
+// Rotación de la cara Front(F)
 void rotar_frente_clockwise() {
     rotar_cara(FRONT);
     
@@ -65,7 +65,7 @@ void rotar_frente_clockwise() {
     for(int i = 0; i < 3; i++) cube[RIGHT][i][0] = temp[2-i];
 }
 
-// Rotación de la cara Derecha (R)
+// Rotación de la cara Right (R)
 void rotar_derecha_clockwise() {
     rotar_cara(RIGHT);
     
@@ -78,7 +78,7 @@ void rotar_derecha_clockwise() {
     for(int i = 0; i < 3; i++) cube[BACK][2-i][0] = temp[i];
 }
 
-// Rotación de la cara Izquierda (L)
+// Rotación de la cara Left (L)
 void rotar_izquierda_clockwise() {
     rotar_cara(LEFT);
     
@@ -91,7 +91,7 @@ void rotar_izquierda_clockwise() {
     for(int i = 0; i < 3; i++) cube[FRONT][i][0] = temp[i];
 }
 
-// Rotación de la cara Superior (U)
+// Rotación de la cara Up (U)
 void rotar_superior_clockwise() {
     rotar_cara(UP);
     
@@ -104,7 +104,7 @@ void rotar_superior_clockwise() {
     for(int i = 0; i < 3; i++) cube[LEFT][0][i] = temp[i];
 }
 
-// Rotación de la cara Inferior (D)
+// Rotación de la cara Down (D)
 void rotar_inferior_clockwise() {
     rotar_cara(DOWN);
     
@@ -117,7 +117,7 @@ void rotar_inferior_clockwise() {
     for(int i = 0; i < 3; i++) cube[RIGHT][2][i] = temp[i];
 }
 
-// Rotación de la cara Trasera (B)
+// Rotación de la cara Back (B)
 void rotar_atras_clockwise() {
     rotar_cara(BACK);
     
