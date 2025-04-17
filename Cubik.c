@@ -11,11 +11,31 @@
 #define UP 4
 #define DOWN 5
 
+// Colores ANSI para la terminal
+#define RED     "\x1B[31m"
+#define GREEN   "\x1B[32m"
+#define YELLOW  "\x1B[33m"
+#define BLUE    "\x1B[34m"
+#define WHITE   "\x1B[37m"
+#define ORANGE  "\x1B[38;5;208m"
+#define RESET   "\x1B[0m"
 
 char cube[6][3][3];
-const char* cara_nombres[] = {"Frente", "Atrás", "Izquierda", "Derecha", "Superior", "Inferior"};
+const char* cara_nombres[] = {"FRENTE", "ATRÁS", "IZQUIERDA", "DERECHA", "SUPERIOR", "INFERIOR"};
 const char colores[] = {'R', 'O', 'G', 'B', 'W', 'Y'};
 int contador_movimientos = 0;
+
+const char* color_ansi(char c) {
+    switch(c) {
+        case 'R': return RED;
+        case 'O': return ORANGE;
+        case 'G': return GREEN;
+        case 'B': return BLUE;
+        case 'W': return WHITE;
+        case 'Y': return YELLOW;
+        default: return RESET;
+    }
+}
 
 void inicializar_cubo() {
     for(int cara = 0; cara < 6; cara++) {
@@ -27,26 +47,43 @@ void inicializar_cubo() {
     }
 }
 
-
 void mostrar_cara(int cara) {
-    printf("%s:\n", cara_nombres[cara]);
+    printf("┌───────┐\n");
     for(int i = 0; i < 3; i++) {
+        printf("│ ");
         for(int j = 0; j < 3; j++) {
-            printf("%c ", cube[cara][i][j]);
+            printf("%s■ %s", color_ansi(cube[cara][i][j]), RESET);
         }
-        printf("\n");
+        printf("│\n");
     }
-    printf("\n");
+    printf("└───────┘\n");
 }
 
 void mostrar_cubo() {
-    mostrar_cara(UP);
-    mostrar_cara(FRONT);
-    mostrar_cara(DOWN);
-    mostrar_cara(LEFT);
-    mostrar_cara(RIGHT);
-    mostrar_cara(BACK);
+    system("clear || cls"); // Limpiar pantalla
+    
+    printf("\n");
+    printf("          ┌───────┐          \n");
+    printf("          │ %s■ %s■ %s■ %s│          \n", color_ansi(cube[UP][0][0]), color_ansi(cube[UP][0][1]), color_ansi(cube[UP][0][2]), RESET);
+    printf("          │ %s■ %s■ %s■ %s│          \n", color_ansi(cube[UP][1][0]), color_ansi(cube[UP][1][1]), color_ansi(cube[UP][1][2]), RESET);
+    printf("          │ %s■ %s■ %s■ %s│          \n", color_ansi(cube[UP][2][0]), color_ansi(cube[UP][2][1]), color_ansi(cube[UP][2][2]), RESET);
+    printf("┌───────┬───────┬───────┬───────┐\n");
+    
+    for(int i = 0; i < 3; i++) {
+        printf("│ %s■ %s■ %s■ %s│ ", color_ansi(cube[LEFT][i][0]), color_ansi(cube[LEFT][i][1]), color_ansi(cube[LEFT][i][2]), RESET);
+        printf("%s■ %s■ %s■ %s│ ", color_ansi(cube[FRONT][i][0]), color_ansi(cube[FRONT][i][1]), color_ansi(cube[FRONT][i][2]), RESET);
+        printf("%s■ %s■ %s■ %s│ ", color_ansi(cube[RIGHT][i][0]), color_ansi(cube[RIGHT][i][1]), color_ansi(cube[RIGHT][i][2]), RESET);
+        printf("%s■ %s■ %s■ %s│\n", color_ansi(cube[BACK][i][0]), color_ansi(cube[BACK][i][1]), color_ansi(cube[BACK][i][2]), RESET);
+    }
+    
+    printf("└───────┴───────┴───────┴───────┘\n");
+    printf("          ┌───────┐          \n");
+    printf("          │ %s■ %s■ %s■ %s│          \n", color_ansi(cube[DOWN][0][0]), color_ansi(cube[DOWN][0][1]), color_ansi(cube[DOWN][0][2]), RESET);
+    printf("          │ %s■ %s■ %s■ %s│          \n", color_ansi(cube[DOWN][1][0]), color_ansi(cube[DOWN][1][1]), color_ansi(cube[DOWN][1][2]), RESET);
+    printf("          │ %s■ %s■ %s■ %s│          \n", color_ansi(cube[DOWN][2][0]), color_ansi(cube[DOWN][2][1]), color_ansi(cube[DOWN][2][2]), RESET);
+    printf("          └───────┘          \n");
 }
+
 
 
 void rotar_cara_clockwise(int cara) {
@@ -286,24 +323,150 @@ int cubo_resuelto() {
     return 1; // Verdadero - resuelto
 }
 
+void cambiar_cara_front(int nuevo_front) {
+    
+    if(nuevo_front == UP) {
+        // Rotar hacia arriba
+        char temp[3][3];
+        
+        
+        memcpy(temp, cube[FRONT], sizeof(temp));
+        memcpy(cube[FRONT], cube[UP], sizeof(cube[UP]));
+        memcpy(cube[UP], cube[BACK], sizeof(cube[BACK]));
+        memcpy(cube[BACK], cube[DOWN], sizeof(cube[DOWN]));
+        memcpy(cube[DOWN], temp, sizeof(temp));
+        
+        rotar_cara_counterclockwise(LEFT);
+        rotar_cara_clockwise(RIGHT);
+    }
+    else if(nuevo_front == DOWN) {
+        // Rotar  hacia abajo
+        char temp[3][3];
+        
+        memcpy(temp, cube[FRONT], sizeof(temp));
+        memcpy(cube[FRONT], cube[DOWN], sizeof(cube[DOWN]));
+        memcpy(cube[DOWN], cube[BACK], sizeof(cube[BACK]));
+        memcpy(cube[BACK], cube[UP], sizeof(cube[UP]));
+        memcpy(cube[UP], temp, sizeof(temp));
+        
+        rotar_cara_clockwise(LEFT);
+        rotar_cara_counterclockwise(RIGHT);
+    }
+    else if(nuevo_front == LEFT) {
+        // Rotar a la izquierda
+        char temp[3][3];
+        
+        memcpy(temp, cube[FRONT], sizeof(temp));
+        memcpy(cube[FRONT], cube[RIGHT], sizeof(cube[RIGHT]));
+        memcpy(cube[RIGHT], cube[BACK], sizeof(cube[BACK]));
+        memcpy(cube[BACK], cube[LEFT], sizeof(cube[LEFT]));
+        memcpy(cube[LEFT], temp, sizeof(temp));
+        
+        rotar_cara_clockwise(UP);
+        rotar_cara_counterclockwise(DOWN);
+    }
+    else if(nuevo_front == RIGHT) {
+        // Rotar  a la derecha
+        char temp[3][3];
+        
+        memcpy(temp, cube[FRONT], sizeof(temp));
+        memcpy(cube[FRONT], cube[LEFT], sizeof(cube[LEFT]));
+        memcpy(cube[LEFT], cube[BACK], sizeof(cube[BACK]));
+        memcpy(cube[BACK], cube[RIGHT], sizeof(cube[RIGHT]));
+        memcpy(cube[RIGHT], temp, sizeof(temp));
+        
+        rotar_cara_counterclockwise(UP);
+        rotar_cara_clockwise(DOWN);
+    }
+    else if(nuevo_front == BACK) {
+        // Rotar 180 grados
+        char temp[3][3];
+        
+        memcpy(temp, cube[FRONT], sizeof(temp));
+        memcpy(cube[FRONT], cube[BACK], sizeof(cube[BACK]));
+        memcpy(cube[BACK], temp, sizeof(temp));
+        
+        memcpy(temp, cube[UP], sizeof(temp));
+        memcpy(cube[UP], cube[DOWN], sizeof(cube[DOWN]));
+        memcpy(cube[DOWN], temp, sizeof(temp));
+        
+        rotar_cara_clockwise(LEFT);
+        rotar_cara_clockwise(RIGHT);
+    }
+    
+}
 
+void mostrar_menu_caras() { 
+    printf("\n");
+    printf("╔══════════════════════════════╗\n");
+    printf("║     Elige el nuevo frente    ║\n");
+    printf("╠══════════════════════════════╣\n");
+    printf("║ Comandos:                    ║\n");
+    printf("║                              ║\n");
+    printf("║ 0 - Frente (actual)          ║\n");
+    printf("║ 1 - Atrás                    ║\n");
+    printf("║ 2 - Derecha                  ║\n");
+    printf("║ 3 - Izquierda                ║\n");
+    printf("║ 4 - Superior                 ║\n");
+    printf("║ 5 - Inferior                 ║\n");
+    printf("╚══════════════════════════════╝\n");
+}
+
+void mostrar_menu_principal() {
+    printf("\n");
+    printf("╔══════════════════════════════════════╗\n");
+    printf("║          CUBO DE RUBIK 3x3           ║\n");
+    printf("╠══════════════════════════════════════╣\n");
+    printf("║ Comandos:                            ║\n");
+    printf("║                                      ║\n");
+    printf("║ [F] Frente     [R] Derecha           ║\n");
+    printf("║ [L] Izquierda  [U] Superior          ║\n");
+    printf("║ [D] Inferior   [B] Atrás             ║\n");
+    printf("║                                      ║\n");
+    printf("║ Modificadores:                       ║\n");
+    printf("║   ' (ej: F') = Rotación inversa      ║\n");
+    printf("║   2 (ej: F2) = Doble rotación        ║\n");
+    printf("║                                      ║\n");
+    printf("║ [S] Mezclar    [V] Cambiar vista     ║\n");
+    printf("║ [C] Verificar  [Q] Salir             ║\n");
+    printf("╚══════════════════════════════════════╝\n");
+    printf("\n");
+}
 
 int main() {
     inicializar_cubo();
     char entrada[10];
     srand(time(NULL));
-    mezclar_cubo();
+    //mezclar_cubo();
     while(1) {
         mostrar_cubo();
+        mostrar_cubo();
+        printf("\nMovimientos: %d\n", contador_movimientos);
+        mostrar_menu_principal();
         
-        
-        printf("Comandos: [F,R,L,U,D,B][',2]| Q=Salir\n");
-        printf("Ingrese movimiento: ");
+        printf("Ingrese comando: ");
         scanf("%s", entrada);
         
+       
+        if(toupper(entrada[0]) == 'S') {
+            mezclar_cubo();
+            continue;
+        }
         if(toupper(entrada[0]) == 'Q') break;
         
-        
+        if(toupper(entrada[0]) == 'V') {
+            int opcion;
+            mostrar_menu_caras();
+            printf("Ingrese comando: ");
+            scanf("%d", &opcion);
+            
+            if(opcion >= 0 && opcion <= 5 && opcion != FRONT) {
+                cambiar_cara_front(opcion);
+            } else {
+                printf("Opción no válida\n");
+            }
+            continue;
+        }
         
         
         for(int i = 0; i < strlen(entrada);) {
@@ -331,11 +494,10 @@ int main() {
         // Verificar automáticamente después de cada movimiento
         if(cubo_resuelto()) {
             mostrar_cubo();
-            printf("\n¡Felicidades, resolviste el cubo en %d movimientos!\n", contador_movimientos);
+            printf("\n¡Felicidades! Has resuelto el cubo en %d movimientos!\n", contador_movimientos);
             break;
         }
     }
     
     return 0;
 }
-
