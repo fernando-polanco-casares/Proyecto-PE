@@ -4,6 +4,12 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define FRONT 0
+#define BACK 1
+#define LEFT 2
+#define RIGHT 3
+#define UP 4
+#define DOWN 5
 
 
 char cube[6][3][3];
@@ -19,6 +25,7 @@ void inicializar_cubo() {
         }
     }
 }
+
 
 void mostrar_cara(int cara) {
     printf("%s:\n", cara_nombres[cara]);
@@ -39,6 +46,7 @@ void mostrar_cubo() {
     mostrar_cara(RIGHT);
     mostrar_cara(BACK);
 }
+
 
 void rotar_cara_clockwise(int cara) {
     char temp[3][3];
@@ -63,10 +71,10 @@ void rotar_cara_counterclockwise(int cara) {
 // Rotaciones para la cara Frontal
 void rotar_frente_clockwise() {
     rotar_cara_clockwise(FRONT);
-    
+
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[UP][2][i];
-    
+
     for(int i = 0; i < 3; i++) cube[UP][2][i] = cube[LEFT][2-i][2];
     for(int i = 0; i < 3; i++) cube[LEFT][2-i][2] = cube[DOWN][0][i];
     for(int i = 0; i < 3; i++) cube[DOWN][0][i] = cube[RIGHT][i][0];
@@ -75,10 +83,10 @@ void rotar_frente_clockwise() {
 
 void rotar_frente_counterclockwise() {
     rotar_cara_counterclockwise(FRONT);
-    
+
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[UP][2][i];
-    
+
     for(int i = 0; i < 3; i++) cube[UP][2][i] = cube[RIGHT][i][0];
     for(int i = 0; i < 3; i++) cube[RIGHT][i][0] = cube[DOWN][0][2-i];
     for(int i = 0; i < 3; i++) cube[DOWN][0][i] = cube[LEFT][2-i][2];
@@ -88,10 +96,10 @@ void rotar_frente_counterclockwise() {
 // Rotaciones para la cara Derecha
 void rotar_derecha_clockwise() {
     rotar_cara_clockwise(RIGHT);
-    
+
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[UP][i][2];
-    
+
     for(int i = 0; i < 3; i++) cube[UP][i][2] = cube[FRONT][i][2];
     for(int i = 0; i < 3; i++) cube[FRONT][i][2] = cube[DOWN][i][2];
     for(int i = 0; i < 3; i++) cube[DOWN][i][2] = cube[BACK][2-i][0];
@@ -100,10 +108,10 @@ void rotar_derecha_clockwise() {
 
 void rotar_derecha_counterclockwise() {
     rotar_cara_counterclockwise(RIGHT);
-    
+
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[UP][i][2];
-    
+
     for(int i = 0; i < 3; i++) cube[UP][i][2] = cube[BACK][2-i][0];
     for(int i = 0; i < 3; i++) cube[BACK][2-i][0] = cube[DOWN][i][2];
     for(int i = 0; i < 3; i++) cube[DOWN][i][2] = cube[FRONT][i][2];
@@ -113,10 +121,10 @@ void rotar_derecha_counterclockwise() {
 // Rotaciones para la cara Izquierda
 void rotar_izquierda_clockwise() {
     rotar_cara_clockwise(LEFT);
-    
+
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[UP][i][0];
-    
+
     for(int i = 0; i < 3; i++) cube[UP][i][0] = cube[BACK][2-i][2];
     for(int i = 0; i < 3; i++) cube[BACK][2-i][2] = cube[DOWN][i][0];
     for(int i = 0; i < 3; i++) cube[DOWN][i][0] = cube[FRONT][i][0];
@@ -125,10 +133,10 @@ void rotar_izquierda_clockwise() {
 
 void rotar_izquierda_counterclockwise() {
     rotar_cara_counterclockwise(LEFT);
-    
+
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[UP][i][0];
-    
+
     for(int i = 0; i < 3; i++) cube[UP][i][0] = cube[FRONT][i][0];
     for(int i = 0; i < 3; i++) cube[FRONT][i][0] = cube[DOWN][i][0];
     for(int i = 0; i < 3; i++) cube[DOWN][i][0] = cube[BACK][2-i][2];
@@ -138,10 +146,10 @@ void rotar_izquierda_counterclockwise() {
 // Rotaciones para la cara Superior
 void rotar_superior_clockwise() {
     rotar_cara_clockwise(UP);
-    
+
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[FRONT][0][i];
-    
+
     for(int i = 0; i < 3; i++) cube[FRONT][0][i] = cube[RIGHT][0][i];
     for(int i = 0; i < 3; i++) cube[RIGHT][0][i] = cube[BACK][0][i];
     for(int i = 0; i < 3; i++) cube[BACK][0][i] = cube[LEFT][0][i];
@@ -150,10 +158,10 @@ void rotar_superior_clockwise() {
 
 void rotar_superior_counterclockwise() {
     rotar_cara_counterclockwise(UP);
-    
+
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[FRONT][0][i];
-    
+
     for(int i = 0; i < 3; i++) cube[FRONT][0][i] = cube[LEFT][0][i];
     for(int i = 0; i < 3; i++) cube[LEFT][0][i] = cube[BACK][0][i];
     for(int i = 0; i < 3; i++) cube[BACK][0][i] = cube[RIGHT][0][i];
@@ -163,10 +171,10 @@ void rotar_superior_counterclockwise() {
 // Rotaciones para la cara Inferior
 void rotar_inferior_clockwise() {
     rotar_cara_clockwise(DOWN);
-    
+
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[FRONT][2][i];
-    
+
     for(int i = 0; i < 3; i++) cube[FRONT][2][i] = cube[LEFT][2][i];
     for(int i = 0; i < 3; i++) cube[LEFT][2][i] = cube[BACK][2][i];
     for(int i = 0; i < 3; i++) cube[BACK][2][i] = cube[RIGHT][2][i];
@@ -175,10 +183,10 @@ void rotar_inferior_clockwise() {
 
 void rotar_inferior_counterclockwise() {
     rotar_cara_counterclockwise(DOWN);
-    
+
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[FRONT][2][i];
-    
+
     for(int i = 0; i < 3; i++) cube[FRONT][2][i] = cube[RIGHT][2][i];
     for(int i = 0; i < 3; i++) cube[RIGHT][2][i] = cube[BACK][2][i];
     for(int i = 0; i < 3; i++) cube[BACK][2][i] = cube[LEFT][2][i];
@@ -188,10 +196,10 @@ void rotar_inferior_counterclockwise() {
 // Rotaciones para la cara Trasera
 void rotar_atras_clockwise() {
     rotar_cara_clockwise(BACK);
-    
+
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[UP][0][i];
-    
+
     for(int i = 0; i < 3; i++) cube[UP][0][i] = cube[RIGHT][i][2];
     for(int i = 0; i < 3; i++) cube[RIGHT][i][2] = cube[DOWN][2][2-i];
     for(int i = 0; i < 3; i++) cube[DOWN][2][2-i] = cube[LEFT][2-i][0];
@@ -200,10 +208,10 @@ void rotar_atras_clockwise() {
 
 void rotar_atras_counterclockwise() {
     rotar_cara_counterclockwise(BACK);
-    
+
     char temp[3];
     for(int i = 0; i < 3; i++) temp[i] = cube[UP][0][i];
-    
+
     for(int i = 0; i < 3; i++) cube[UP][0][i] = cube[LEFT][i][0];
     for(int i = 0; i < 3; i++) cube[LEFT][2-i][0] = cube[DOWN][2][i];
     for(int i = 0; i < 3; i++) cube[DOWN][2][i] = cube[RIGHT][2-i][2];
@@ -241,41 +249,45 @@ void manejar_movimiento(char movimiento, int inverso) {
     }
 }
 
+
 void mezclar_cubo() {
     char caras[] = {'F', 'R', 'L', 'U', 'D', 'B'};
-    
+
     // Mezclar cada cara entre 0 y 3 veces
     for(int i = 0; i < 6; i++) {
         int rotaciones = rand() % 4; // 0-3 rotaciones
         for(int j = 0; j < rotaciones; j++) {
-            int direccion = rand() % 2; // 0 = clockwise, 1 = counterclockwise
+            int direccion = 0;
             manejar_movimiento(caras[i], direccion);
         }
     }
 }
-int main() {
+
+int main() 
+{
     inicializar_cubo();
     char entrada[10];
     srand(time(NULL)); // Inicializar semilla para números aleatorios
-    
-    while(1) {
+
+    while(1) 
+    {
         mostrar_cubo();
         printf("Comandos: [F,R,L,U,D,B][',2] | S=Mezclar | Q=Salir\n");
         printf("Ingrese movimiento: ");
         scanf("%s", entrada);
-        
+
         if(toupper(entrada[0]) == 'Q') break;
-        
+
         if(toupper(entrada[0]) == 'S') {
             mezclar_cubo();
             continue;
         }
-        
+
         for(int i = 0; i < strlen(entrada);) {
             char mov = entrada[i];
             int inverso = 0;
             int doble = 0;
-            
+
             if(i+1 < strlen(entrada)) {
                 if(entrada[i+1] == '\'') {
                     inverso = 1;
@@ -286,13 +298,13 @@ int main() {
                     i++;
                 }
             }
-            
+
             manejar_movimiento(mov, inverso);
             if(doble) manejar_movimiento(mov, inverso);
-            
+
             i++;
         }
     }
-    
+
     return 0;
 }
