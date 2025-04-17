@@ -1,13 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
+#include <time.h>
 
-#define FRONT 0
-#define BACK 1
-#define LEFT 2
-#define RIGHT 3
-#define UP 4
-#define DOWN 5
+
 
 char cube[6][3][3];
 const char* cara_nombres[] = {"Frente", "Atrás", "Izquierda", "Derecha", "Superior", "Inferior"};
@@ -244,6 +241,18 @@ void manejar_movimiento(char movimiento, int inverso) {
     }
 }
 
+void mezclar_cubo() {
+    char caras[] = {'F', 'R', 'L', 'U', 'D', 'B'};
+    
+    // Mezclar cada cara entre 0 y 3 veces
+    for(int i = 0; i < 6; i++) {
+        int rotaciones = rand() % 4; // 0-3 rotaciones
+        for(int j = 0; j < rotaciones; j++) {
+            int direccion = rand() % 2; // 0 = clockwise, 1 = counterclockwise
+            manejar_movimiento(caras[i], direccion);
+        }
+    }
+}
 int main() {
     inicializar_cubo();
     char entrada[10];
