@@ -256,21 +256,26 @@ void mezclar_cubo() {
 int main() {
     inicializar_cubo();
     char entrada[10];
+    srand(time(NULL)); // Inicializar semilla para números aleatorios
     
     while(1) {
         mostrar_cubo();
-        printf("Introduce movimiento (F, R, L, U, D, B) con ' para inverso\n");
-        printf("Ejemplo: F, R', U2. Q para salir: ");
+        printf("Comandos: [F,R,L,U,D,B][',2] | S=Mezclar | Q=Salir\n");
+        printf("Ingrese movimiento: ");
         scanf("%s", entrada);
         
         if(toupper(entrada[0]) == 'Q') break;
+        
+        if(toupper(entrada[0]) == 'S') {
+            mezclar_cubo();
+            continue;
+        }
         
         for(int i = 0; i < strlen(entrada);) {
             char mov = entrada[i];
             int inverso = 0;
             int doble = 0;
             
-            // Verificar modificadores
             if(i+1 < strlen(entrada)) {
                 if(entrada[i+1] == '\'') {
                     inverso = 1;
@@ -282,7 +287,6 @@ int main() {
                 }
             }
             
-            // Aplicar movimiento
             manejar_movimiento(mov, inverso);
             if(doble) manejar_movimiento(mov, inverso);
             
