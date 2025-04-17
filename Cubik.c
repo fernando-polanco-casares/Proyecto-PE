@@ -69,7 +69,7 @@ void rotar_cara_counterclockwise(int cara) {
     memcpy(cube[cara], temp, sizeof(temp));
 }
 
-// Rotaciones para la cara Frontal
+// Rotaciones para la cara Front
 void rotar_frente_clockwise() {
     rotar_cara_clockwise(FRONT);
 
@@ -94,7 +94,7 @@ void rotar_frente_counterclockwise() {
     for(int i = 0; i < 3; i++) cube[LEFT][i][2] = temp[2-i];
 }
 
-// Rotaciones para la cara Derecha
+// Rotaciones para la cara Rigth
 void rotar_derecha_clockwise() {
     rotar_cara_clockwise(RIGHT);
 
@@ -119,7 +119,7 @@ void rotar_derecha_counterclockwise() {
     for(int i = 0; i < 3; i++) cube[FRONT][i][2] = temp[i];
 }
 
-// Rotaciones para la cara Izquierda
+// Rotaciones para la cara Left
 void rotar_izquierda_clockwise() {
     rotar_cara_clockwise(LEFT);
 
@@ -144,7 +144,7 @@ void rotar_izquierda_counterclockwise() {
     for(int i = 0; i < 3; i++) cube[BACK][2-i][2] = temp[i];
 }
 
-// Rotaciones para la cara Superior
+// Rotaciones para la cara Up
 void rotar_superior_clockwise() {
     rotar_cara_clockwise(UP);
 
@@ -169,7 +169,7 @@ void rotar_superior_counterclockwise() {
     for(int i = 0; i < 3; i++) cube[RIGHT][0][i] = temp[i];
 }
 
-// Rotaciones para la cara Inferior
+// Rotaciones para la cara Down
 void rotar_inferior_clockwise() {
     rotar_cara_clockwise(DOWN);
 
@@ -194,7 +194,7 @@ void rotar_inferior_counterclockwise() {
     for(int i = 0; i < 3; i++) cube[LEFT][2][i] = temp[i];
 }
 
-// Rotaciones para la cara Trasera
+// Rotaciones para la cara Back
 void rotar_atras_clockwise() {
     rotar_cara_clockwise(BACK);
 
@@ -219,7 +219,7 @@ void rotar_atras_counterclockwise() {
     for(int i = 0; i < 3; i++) cube[RIGHT][i][2] = temp[2-i];
 }
 
-void manejar_movimiento(char movimiento, int inverso) {
+void manejo_movimiento(char movimiento, int inverso) {
     switch(toupper(movimiento)) {
         case 'F': 
             if(inverso) rotar_frente_counterclockwise();
@@ -263,10 +263,10 @@ void mezclar_cubo() {
 
     // Mezclar cada cara entre 0 y 3 veces
     for(int i = 0; i < 6; i++) {
-        int rotaciones = rand() % 4; // 0-3 rotaciones
+        int rotaciones = rand() % 4; 
         for(int j = 0; j < rotaciones; j++) {
             int direccion = 0;
-            manejar_movimiento(caras[i], direccion);
+            manejo_movimiento(caras[i], direccion);
         }
     }
 }
@@ -278,12 +278,12 @@ int cubo_resuelto() {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
                 if(cube[cara][i][j] != color_referencia) {
-                    return 0; // Falso - no está resuelto
+                    return 0; // Falso - no resuelto
                 }
             }
         }
     }
-    return 1; // Verdadero - cubo resuelto
+    return 1; // Verdadero - resuelto
 }
 
 
@@ -322,8 +322,8 @@ int main() {
                 }
             }
             
-            manejar_movimiento(mov, inverso);
-            if(doble) manejar_movimiento(mov, inverso);
+            manejo_movimiento(mov, inverso);
+            if(doble) manejo_movimiento(mov, inverso);
             
             i++;
         }
@@ -331,7 +331,7 @@ int main() {
         // Verificar automáticamente después de cada movimiento
         if(cubo_resuelto()) {
             mostrar_cubo();
-            printf("\n¡Felicidades! Has resuelto el cubo en %d movimientos!\n", contador_movimientos);
+            printf("\n¡Felicidades, resolviste el cubo en %d movimientos!\n", contador_movimientos);
             break;
         }
     }
