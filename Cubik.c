@@ -263,31 +263,47 @@ void mezclar_cubo() {
     }
 }
 
-int main() 
-{
+int cubo_resuelto() {
+    for(int cara = 0; cara < 6; cara++) {
+        char color_referencia = cube[cara][0][0];
+        
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                if(cube[cara][i][j] != color_referencia) {
+                    return 0; // Falso - no está resuelto
+                }
+            }
+        }
+    }
+    return 1; // Verdadero - cubo resuelto
+}
+
+int main() {
     inicializar_cubo();
     char entrada[10];
-    srand(time(NULL)); // Inicializar semilla para números aleatorios
-
-    while(1) 
-    {
+    srand(time(NULL));
+    
+    while(1) {
         mostrar_cubo();
+        
+        
         printf("Comandos: [F,R,L,U,D,B][',2] | S=Mezclar | Q=Salir\n");
         printf("Ingrese movimiento: ");
         scanf("%s", entrada);
-
+        
         if(toupper(entrada[0]) == 'Q') break;
-
+        
         if(toupper(entrada[0]) == 'S') {
             mezclar_cubo();
             continue;
         }
-
+        
+        
         for(int i = 0; i < strlen(entrada);) {
             char mov = entrada[i];
             int inverso = 0;
             int doble = 0;
-
+            
             if(i+1 < strlen(entrada)) {
                 if(entrada[i+1] == '\'') {
                     inverso = 1;
@@ -298,13 +314,20 @@ int main()
                     i++;
                 }
             }
-
+            
             manejar_movimiento(mov, inverso);
             if(doble) manejar_movimiento(mov, inverso);
-
+            
             i++;
         }
+        
+        // Verificar automáticamente después de cada movimiento
+        if(cubo_resuelto()) {
+            mostrar_cubo();
+            printf("\n¡Felicidades! Has resuelto el cubo!\n");
+            break;
+        }
     }
-
+    
     return 0;
 }
