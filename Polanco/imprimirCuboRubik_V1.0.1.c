@@ -96,12 +96,12 @@ void imprimirCuboRubik2D(){
 void imprimirCaraCuboRubik(char cara){
     int colorCara;
     switch (cara) {
-        case 'L': colorCara = 0; break; //Izquierda
-        case 'F': colorCara = 1; break; //Frontal
-        case 'R': colorCara = 2; break; //Derecha
-        case 'B': colorCara = 3; break; //Trasera
-        case 'U': colorCara = 4; break; //Superior
-        case 'D': colorCara = 5; break; //Inferior
+        case 'L': puts("     Left face:"), colorCara = 0; break; //Izquierda
+        case 'F': puts("    Front face:"), colorCara = 1; break; //Frontal
+        case 'R': puts("    Right face:"), colorCara = 2; break; //Derecha
+        case 'B': puts("     Back face:"), colorCara = 3; break; //Trasera
+        case 'U': puts("      Up face:"), colorCara = 4; break; //Superior
+        case 'D': puts("     Down face:"), colorCara = 5; break; //Inferior
         default: break;
     }
     //Imprime la cara que eligio el usuario
