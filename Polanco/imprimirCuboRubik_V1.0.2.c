@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ctype.h>
 #ifdef _WIN32
 #include <windows.h>
 void habilitarANSI() {
@@ -116,9 +117,9 @@ void imprimirCaraCuboRubik(char cara){
 }
 
 int verificarCaraCuboRubik(char* cara){
-    if (*cara >= 97 && *cara <= 122){
-        *cara -= 32;
-    }
+    //Convierto en mayusculas
+    *cara = toupper(*cara);
+
     if (*cara != 'B' && *cara != 'D' && *cara != 'F' && *cara != 'L' && *cara != 'R' && *cara != 'U'){
         puts("Cara invalida!!!");
         return 0;
