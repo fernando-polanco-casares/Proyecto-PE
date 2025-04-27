@@ -15,3 +15,4 @@ con el objetivo de hacer un juego interactivo donde se pueda resolver un cubo ru
 ## <samp>🎯 Diagrama General del proyecto 🎯 <samp>
 ![Image](https://github.com/user-attachments/assets/f6643aaf-afbb-44de-bff5-dbd78dd6b179)
 ## <samp>🎯 Diagrama Especifico el ciclo del juego 🎯 <samp>
+![Image](https://github.com/user-attachments/assets/2c566e69-02ad-4f42-b0a6-4517a12c7ae4)
